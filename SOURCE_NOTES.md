@@ -1,7 +1,7 @@
 # Source notes
 
 The initial mathematical constructions were consolidated from the local
-`CAREER_legwork/Polynomial_emulation_test` experiments, principally:
+`Polynomial_emulation_test` experiments, principally:
 
 - `legendre_emulation_core.py`;
 - `legendre_notebook_utils.py`;
