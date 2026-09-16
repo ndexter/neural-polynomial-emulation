@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Neural Polynomial Emulation"
+type: software
+authors:
+  - family-names: Dexter
+    given-names: Nick
+repository-code: "https://github.com/ndexter/neural-polynomial-emulation"
+url: "https://github.com/ndexter/neural-polynomial-emulation"
+version: 0.3.0
+date-released: 2026-09-16
+license: MIT

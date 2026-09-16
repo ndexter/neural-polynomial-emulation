@@ -8,10 +8,31 @@ version = "0.3.0"
 description = "Constructive neural emulators for probability-normalized polynomial bases."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-  "numpy>=1.23",
-  "torch>=2.0",
+license = { file = "LICENSE" }
+
+authors = [
+    { name = "Nick Dexter" }
 ]
+
+dependencies = [
+    "numpy>=1.23",
+    "torch>=2.0",
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+[project.urls]
+Homepage = "https://github.com/ndexter/neural-polynomial-emulation"
+Repository = "https://github.com/ndexter/neural-polynomial-emulation"
+Issues = "https://github.com/ndexter/neural-polynomial-emulation/issues"
 
 [project.optional-dependencies]
 test = ["pytest>=7"]
