@@ -82,7 +82,9 @@ $$
   trainable implementation parameters, and fixed buffers.
 - `to_feedforward`: nonmutating conversion to frozen, explicit `nn.Linear`
   multiplier realizations suitable for direct evaluation, serialization, and
-  comparison with the functional constructions.
+  comparison with the functional constructions. Its tanh realization keeps
+  the sum/difference and centered-finite-difference reductions in separate
+  affine layers for stable float32 evaluation across linear-algebra backends.
 
 ## Example
 

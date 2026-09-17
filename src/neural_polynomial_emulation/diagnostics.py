@@ -106,7 +106,9 @@ def emulator_complexity(module: nn.Module) -> dict[str, int]:
     standard feedforward realization of every multiplier. A depth-``L`` ReLU
     multiplier has ``L`` hidden layers of width 12 when ``L >= 1`` (and one
     width-three layer when ``L == 0``); tanh and RePU-2 multipliers have one
-    hidden layer of width six and four, respectively.
+    nonlinear layer of width six and four, respectively. The tanh realization
+    uses affine widths ``2 -> 2 -> 6 -> 2 -> 1`` so that finite-difference
+    cancellation follows the functional construction's numerical grouping.
 
     ``total_parameters`` counts all entries, including biases, in the dense
     affine layers of those realizations. ``nonzero_parameters`` counts only
@@ -173,11 +175,11 @@ def emulator_complexity(module: nn.Module) -> dict[str, int]:
 
     total_parameters = (
         relu_total_parameters
-        + 25 * len(tanh_products)  # 2 -> 6 -> 1
+        + 41 * len(tanh_products)  # 2 -> 2 -> 6 -> 2 -> 1
         + 17 * len(repu2_products)  # 2 -> 4 -> 1
     )
     nonzero_parameters = (
-        relu_nonzero_parameters + 20 * len(tanh_products) + 12 * len(repu2_products)
+        relu_nonzero_parameters + 22 * len(tanh_products) + 12 * len(repu2_products)
     )
     for child in root_emulators:
         if child.degree == 0:

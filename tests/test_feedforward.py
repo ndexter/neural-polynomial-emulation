@@ -102,7 +102,18 @@ def test_materialized_counts_match_analytic_counts(product):
 def test_tanh_conversion_resolves_step_for_requested_dtype():
     source = TanhProductNet(tolerance=1e-8)
     converted = to_feedforward(source, dtype=torch.float32)
-    inputs = torch.tensor([[0.25, -0.75], [0.5, 0.125]], dtype=torch.float32)
+    generator = torch.Generator().manual_seed(2026)
+    random_inputs = (
+        2.0
+        * torch.rand((4096, 2), generator=generator, dtype=torch.float32)
+        - 1.0
+    )
+    inputs = torch.cat(
+        (
+            torch.tensor([[0.25, -0.75], [0.5, 0.125]], dtype=torch.float32),
+            random_inputs,
+        )
+    )
 
     assert next(converted.parameters()).dtype == torch.float32
     assert converted.effective_step(torch.float32) == source.effective_step(
@@ -112,7 +123,7 @@ def test_tanh_conversion_resolves_step_for_requested_dtype():
         converted(inputs[:, 0], inputs[:, 1]),
         source(inputs[:, 0], inputs[:, 1]),
         rtol=0.0,
-        atol=5e-5,
+        atol=1e-6,
     )
 
 

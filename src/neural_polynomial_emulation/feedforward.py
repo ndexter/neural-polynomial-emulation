@@ -93,31 +93,45 @@ def _tanh_feedforward(
     x_bound = source.x_bound
     y_bound = source.y_bound
     bias = source.bias
+    sum_difference_weight = [
+        [1.0 / x_bound, 1.0 / y_bound],
+        [1.0 / x_bound, -1.0 / y_bound],
+    ]
     hidden_weight = [
-        [step / (2.0 * x_bound), step / (2.0 * y_bound)],
+        [step / 2.0, 0.0],
         [0.0, 0.0],
-        [-step / (2.0 * x_bound), -step / (2.0 * y_bound)],
-        [step / (2.0 * x_bound), -step / (2.0 * y_bound)],
+        [-step / 2.0, 0.0],
+        [0.0, step / 2.0],
         [0.0, 0.0],
-        [-step / (2.0 * x_bound), step / (2.0 * y_bound)],
+        [0.0, -step / 2.0],
     ]
     tanh_bias = math.tanh(bias)
     second_derivative = -2.0 * tanh_bias * (1.0 - tanh_bias**2)
     output_scale = x_bound * y_bound / (step**2 * second_derivative)
-    output_weight = [
+    numerator_weight = [
         [
-            output_scale,
-            -2.0 * output_scale,
-            output_scale,
-            -output_scale,
-            2.0 * output_scale,
-            -output_scale,
-        ]
+            1.0,
+            -2.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+        ],
+        [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            -2.0,
+            1.0,
+        ],
     ]
     network = nn.Sequential(
+        _linear(sum_difference_weight, [0.0, 0.0], dtype=dtype),
         _linear(hidden_weight, [bias] * 6, dtype=dtype),
         nn.Tanh(),
-        _linear(output_weight, [0.0], dtype=dtype),
+        _linear(numerator_weight, [0.0, 0.0], dtype=dtype),
+        _linear([[output_scale, -output_scale]], [0.0], dtype=dtype),
     )
     return FeedforwardProductNet(
         network,

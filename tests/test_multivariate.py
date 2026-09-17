@@ -118,7 +118,7 @@ def test_complexity_counts_product_nodes_and_activation_units():
             expected_nodes * 1765 + 24,
             expected_nodes * 528 + 16,
         ),
-        "tanh": (18, 99, 76),
+        "tanh": (18, 147, 82),
         "repu2": (12, 75, 52),
     }
     for product, (

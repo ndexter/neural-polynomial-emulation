@@ -52,3 +52,6 @@ The optional feedforward conversion materializes these multiplier and affine
 blocks as frozen `torch.nn.Linear` layers. It deep-copies the enclosing
 emulator, leaving the original functional construction unchanged. The tanh
 step is resolved for the requested floating-point dtype at conversion time.
+Its consecutive affine layers preserve the functional construction's
+sum/difference and centered-finite-difference grouping, avoiding a single
+cancellation-heavy output reduction in low precision.
