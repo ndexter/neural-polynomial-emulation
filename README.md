@@ -178,7 +178,10 @@ The notebooks `notebooks/multivariate_basis_diagnostics.ipynb`,
 `notebooks/feedforward_embedding_diagnostics.ipynb` compare basis columns,
 sweep accuracy and size controls, and verify the executable feedforward
 conversion. `notebooks/feedforward_weight_structure.ipynb` visualizes signed
-weights, biases, exact nonzero masks, and root/normalization structure. Reported
+weights, biases, exact nonzero masks, and root/normalization structure.
+`notebooks/dimension_roundoff_accumulation.ipynb` compares float32 and float64
+precision sensitivity with increasing dimension for all three multiplication
+constructions and both functional and feedforward implementations. Reported
 maximum errors are maxima over the displayed grid or fixed random sample, not
 certified uniform-error bounds.
 
