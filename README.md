@@ -42,12 +42,14 @@ $$
 It is orthonormal for the corresponding product probability measure. The
 package supplies the total-degree and lower-hyperbolic-cross index sets
 
-$$
+```math
 \Lambda^{\mathrm{TD}}_{d,p}
-=\{\nu:|\nu|_1\leq p\},\qquad
+= \lbrace \nu\in\mathbb{N}_0^d : \lVert\nu\rVert_1\leq p \rbrace,
+\qquad
 \Lambda^{\mathrm{HC}}_{d,n}
-=\left\{\nu:\prod_{j=1}^d(\nu_j+1)\leq n+1\right\}.
-$$
+= \lbrace \nu\in\mathbb{N}_0^d :
+\prod_{j=1}^d(\nu_j+1)\leq n+1 \rbrace.
+```
 
 ## Components
 
