@@ -1,7 +1,7 @@
 # Neural Polynomial Emulation
 
-`neural-polynomial-emulation` provides constructive PyTorch networks that
-emulate Legendre and first-kind Chebyshev polynomials on `[-1, 1]`. The
+`neural-polynomial-emulation` provides constructive PyTorch networks for
+Legendre and first-kind Chebyshev tensor-product bases on `[-1, 1]^d`. The
 networks have fixed analytic weights: they are mathematical constructions
 rather than models trained from data.
 
@@ -33,6 +33,22 @@ $$
 These family-specific probability normalizations are fixed; there is no
 alternative normalization option.
 
+For a multi-index $\nu\in\mathbb{N}_0^d$, the multivariate basis function is
+
+$$
+\Psi_\nu(x)=\prod_{j=1}^d\psi_{\nu_j}(x_j).
+$$
+
+It is orthonormal for the corresponding product probability measure. The
+package supplies the total-degree and lower-hyperbolic-cross index sets
+
+$$
+\Lambda^{\mathrm{TD}}_{d,p}
+=\{\nu:|\nu|_1\leq p\},\qquad
+\Lambda^{\mathrm{HC}}_{d,n}
+=\left\{\nu:\prod_{j=1}^d(\nu_j+1)\leq n+1\right\}.
+$$
+
 ## Components
 
 - `ReLUSquaringNet`: a depth-controlled piecewise-linear approximation of
@@ -54,6 +70,19 @@ alternative normalization option.
 - `ChebyshevBasisEmulator`: the corresponding Chebyshev sequence evaluator.
 - `exact_legendre_basis` and `exact_chebyshev_basis`: stable three-term
   recurrences used as references.
+- `total_degree_indices` and `hyperbolic_cross_indices`: deterministic,
+  downward-closed multi-index generators ordered by total degree and then
+  lexicographically.
+- `MultivariateBasisEmulator`: tensor-product neural emulation on an explicit
+  multi-index set.
+- `exact_multivariate_basis` and `emulated_multivariate_basis`: exact and
+  neural multivariate design matrices.
+- `emulator_complexity`: construction-aware counts of multiplication nodes,
+  scalar activation units, dense total parameters, nonzero parameters,
+  trainable implementation parameters, and fixed buffers.
+- `to_feedforward`: nonmutating conversion to frozen, explicit `nn.Linear`
+  multiplier realizations suitable for direct evaluation, serialization, and
+  comparison with the functional constructions.
 
 ## Example
 
@@ -61,20 +90,28 @@ alternative normalization option.
 import torch
 
 from neural_polynomial_emulation import (
-    ChebyshevBasisEmulator,
-    exact_chebyshev_basis,
+    MultivariateBasisEmulator,
+    exact_multivariate_basis,
+    hyperbolic_cross_indices,
+    to_feedforward,
 )
 
-x = torch.linspace(-1.0, 1.0, 257, dtype=torch.float64)
-emulator = ChebyshevBasisEmulator(
-    max_degree=8,
+x = 2.0 * torch.rand(512, 3, dtype=torch.float64) - 1.0
+multi_index = hyperbolic_cross_indices(dimension=3, order=8)
+emulator = MultivariateBasisEmulator(
+    multi_index,
+    family="chebyshev",
     product="tanh",
     tanh_tolerance=1e-4,
 ).to(dtype=x.dtype)
 
 approx = emulator(x)
-exact = exact_chebyshev_basis(x, max_degree=8)
+exact = exact_multivariate_basis(x, multi_index, family="chebyshev")
 error = torch.max(torch.abs(approx - exact), dim=0).values
+
+# Materialize frozen Linear/activation multiplier blocks without changing emulator.
+feedforward = to_feedforward(emulator, dtype=x.dtype)
+feedforward_approx = feedforward(x)
 ```
 
 The root-factorized construction is intentionally exposed as the object of
@@ -85,6 +122,29 @@ the real critical points of that partial polynomial on `[-1, 1]`.
 Approximate multiplication errors and conditioning of the factorized
 polynomial can grow with degree. The diagnostics report this behavior; the
 package does not conceal it with an exact recurrence.
+
+The multivariate emulator first constructs each required univariate basis
+sequence. It then applies additional fixed-weight multipliers across active
+coordinates. RePU-2 gives the tensor product exactly up to floating-point
+roundoff. ReLU and tanh introduce approximation error in both the univariate
+root products and the cross-coordinate products.
+
+`emulator_complexity` does not materialize or replace these functional
+implementations. For size comparisons, it embeds each scalar multiplier in a
+standard two-input, scalar-output feedforward network and adds the counts over
+multiplier nodes. The dense total includes every weight and bias slot; the
+nonzero count uses the sparse analytic realization. Modular affine layers for
+root shifts, final polynomial scaling, and degree-zero constants are included;
+only artificial padding between independent branches is excluded.
+
+`to_feedforward(model, dtype=...)` materializes that same modular embedding in
+a deep copy of the model. It replaces each multiplier with frozen linear layers
+and the corresponding elementwise activation. Root shifts, output scaling, and
+degree-zero constants are also materialized as frozen affine layers, while the
+product-tree wiring and basis assembly are retained. Automatic tanh steps are
+resolved for the requested dtype. Roundoff-scale representations of
+analytically zero roots are set to exact zero in the copy so sparsity masks
+reflect the mathematical construction. The source model is not modified.
 
 ## Tanh construction
 
@@ -110,6 +170,15 @@ experiments such as a step-size sweep. The individual emulator classes expose
 `tanh_steps(dtype)`, which reports the effective steps grouped by tree level.
 
 ## Development
+
+The notebooks `notebooks/multivariate_basis_diagnostics.ipynb`,
+`notebooks/multivariate_accuracy_complexity.ipynb`, and
+`notebooks/feedforward_embedding_diagnostics.ipynb` compare basis columns,
+sweep accuracy and size controls, and verify the executable feedforward
+conversion. `notebooks/feedforward_weight_structure.ipynb` visualizes signed
+weights, biases, exact nonzero masks, and root/normalization structure. Reported
+maximum errors are maxima over the displayed grid or fixed random sample, not
+certified uniform-error bounds.
 
 ```bash
 python -m pip install -e ".[test,examples]"

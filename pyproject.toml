@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neural-polynomial-emulation"
-version = "0.4.0"
+version = "0.5.0"
 description = "Constructive neural emulators for probability-normalized polynomial bases."
 readme = "README.md"
 requires-python = ">=3.10"

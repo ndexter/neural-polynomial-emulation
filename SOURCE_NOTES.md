@@ -16,6 +16,13 @@ measure `dx/2`. Chebyshev polynomials use the Chebyshev probability measure
 default-dtype mutation, separates exact recurrence evaluation from neural
 emulation, and adds package-level tests.
 
+The multivariate extension forms tensor products of these probability-
+orthonormal univariate bases. It provides total-degree sets
+`sum(alpha) <= p` and lower hyperbolic crosses
+`prod(alpha_j + 1) <= n + 1`. The implementation evaluates the univariate
+neural constructions coordinatewise and uses the selected fixed-weight
+multiplier for the cross-coordinate products.
+
 Recovery solvers, Christoffel sampling, experiment archives, generated plots,
 and machine-specific launch scripts were deliberately excluded.
 
@@ -32,3 +39,16 @@ The implementation uses the explicit centered second finite difference for
 squaring, the polarization identity for two-factor multiplication, and a
 bound-aware tree for products of multiple factors. Legendre and Chebyshev
 emulators share this root-product engine. It contains no fitted weights.
+
+Complexity diagnostics preserve these functional implementations. Their
+parameter counts instead describe a modular feedforward embedding of each
+scalar multiplier: dense weight-and-bias slots are reported as total
+parameters, while the analytic sparse realization determines the nonzero
+count. Counts include modular affine layers for root shifts, final polynomial
+scalings, and degree-zero constants. Artificial padding between independent
+branches is excluded.
+
+The optional feedforward conversion materializes these multiplier and affine
+blocks as frozen `torch.nn.Linear` layers. It deep-copies the enclosing
+emulator, leaving the original functional construction unchanged. The tanh
+step is resolved for the requested floating-point dtype at conversion time.

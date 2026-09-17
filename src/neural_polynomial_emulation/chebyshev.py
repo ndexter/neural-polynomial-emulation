@@ -8,7 +8,7 @@ from typing import overload
 import numpy as np
 import torch
 
-from .legendre import _RootFactorizedPolynomialEmulator, _validate_degree
+from ._root_factorized import _RootFactorizedPolynomialEmulator, _validate_degree
 from .squaring import OPTIMAL_TANH_BIAS
 
 

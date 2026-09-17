@@ -16,14 +16,28 @@ from .chebyshev_basis import (
 from .diagnostics import (
     basis_error_by_degree,
     chebyshev_basis_error_by_degree,
+    emulator_complexity,
     legendre_basis_error_by_degree,
     relative_frobenius_mismatch,
 )
+from .feedforward import FeedforwardProductNet, RePU2Activation, to_feedforward
 from .legendre import (
     LegendreEmulator,
     exact_legendre,
     legendre_leading_coefficient,
     legendre_roots,
+)
+from .multi_index import (
+    hyperbolic_cross_indices,
+    is_downward_closed,
+    multi_index_set,
+    total_degree_indices,
+    validate_multi_index,
+)
+from .multivariate import (
+    MultivariateBasisEmulator,
+    emulated_multivariate_basis,
+    exact_multivariate_basis,
 )
 from .products import ReLUProductNet, RePU2ProductNet, TanhProductNet
 from .squaring import OPTIMAL_TANH_BIAS, ReLUSquaringNet, TanhSquaringNet
@@ -32,10 +46,13 @@ __all__ = [
     "OPTIMAL_TANH_BIAS",
     "ChebyshevBasisEmulator",
     "ChebyshevEmulator",
+    "FeedforwardProductNet",
     "LegendreBasisEmulator",
     "LegendreEmulator",
+    "MultivariateBasisEmulator",
     "ReLUProductNet",
     "ReLUSquaringNet",
+    "RePU2Activation",
     "RePU2ProductNet",
     "TanhProductNet",
     "TanhSquaringNet",
@@ -46,14 +63,23 @@ __all__ = [
     "chebyshev_roots",
     "emulated_chebyshev_basis",
     "emulated_legendre_basis",
+    "emulated_multivariate_basis",
+    "emulator_complexity",
     "exact_chebyshev",
     "exact_chebyshev_basis",
     "exact_legendre",
     "exact_legendre_basis",
+    "exact_multivariate_basis",
+    "hyperbolic_cross_indices",
+    "is_downward_closed",
     "legendre_basis_error_by_degree",
     "legendre_leading_coefficient",
     "legendre_roots",
+    "multi_index_set",
     "relative_frobenius_mismatch",
+    "to_feedforward",
+    "total_degree_indices",
+    "validate_multi_index",
 ]
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
