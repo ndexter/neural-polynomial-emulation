@@ -46,6 +46,14 @@ def test_diagnostics_return_finite_values():
         relative_frobenius_mismatch(np.zeros((2, 2)), np.zeros((2, 2)))
 
 
+def test_generic_diagnostics_support_both_families():
+    for family in ("legendre", "chebyshev"):
+        errors = basis_error_by_degree(4, family=family, product="repu2", grid_size=129)
+        assert errors.shape == (5,)
+    with pytest.raises(ValueError, match="family"):
+        basis_error_by_degree(2, family="jacobi")
+
+
 def test_invalid_basis_parameters():
     with pytest.raises(ValueError):
         LegendreBasisEmulator(-1)

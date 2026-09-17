@@ -110,13 +110,15 @@ def exact_legendre(x, degree: int):
     return math.sqrt(2.0 * degree + 1.0) * p1
 
 
-class LegendreEmulator(nn.Module):
-    """Root-factorized neural emulator of ``sqrt(2n+1) P_n``.
+class _RootFactorizedPolynomialEmulator(nn.Module):
+    """Shared root-factorized neural polynomial emulator.
 
     Parameters
     ----------
-    degree:
-        Polynomial degree.
+    roots:
+        Real polynomial roots.
+    leading_coefficient:
+        Leading coefficient after the requested normalization.
     product:
         ``"relu"`` or ``"tanh"`` for approximate multiplication, or
         ``"repu2"`` for the exact RePU-2 identity.
@@ -143,7 +145,9 @@ class LegendreEmulator(nn.Module):
 
     def __init__(
         self,
-        degree: int,
+        roots: np.ndarray,
+        leading_coefficient: float,
+        *,
         product: str = "relu",
         num_layers: int = 8,
         tanh_step: float | None = None,
@@ -151,7 +155,13 @@ class LegendreEmulator(nn.Module):
         tanh_tolerance: float = 1e-4,
     ):
         super().__init__()
-        degree = _validate_degree(degree)
+        roots = np.asarray(roots, dtype=np.float64)
+        if roots.ndim != 1 or not np.all(np.isfinite(roots)):
+            raise ValueError("roots must be a finite one-dimensional array")
+        degree = int(roots.size)
+        leading_coefficient = float(leading_coefficient)
+        if not math.isfinite(leading_coefficient) or leading_coefficient <= 0.0:
+            raise ValueError("leading_coefficient must be positive and finite")
         num_layers = int(num_layers)
         if num_layers < 0:
             raise ValueError("num_layers must be nonnegative")
@@ -180,15 +190,13 @@ class LegendreEmulator(nn.Module):
         self.degree = degree
         self.product = product
         self.num_layers = num_layers
-        self.register_buffer(
-            "roots", torch.as_tensor(legendre_roots(degree), dtype=torch.float64)
-        )
+        self.register_buffer("roots", torch.as_tensor(roots, dtype=torch.float64))
         self.tanh_step = tanh_step
         self.tanh_bias = tanh_bias
         self.tanh_tolerance = tanh_tolerance
         self.register_buffer(
             "leading_coefficient",
-            torch.tensor(legendre_leading_coefficient(degree), dtype=torch.float64),
+            torch.tensor(leading_coefficient, dtype=torch.float64),
         )
 
         modules: list[nn.Module] = []
@@ -338,3 +346,27 @@ class LegendreEmulator(nn.Module):
         for stage in range(1, self.degree - 1):
             value = self.product_nets[stage](value, factors[stage + 1])
         return leading * value
+
+
+class LegendreEmulator(_RootFactorizedPolynomialEmulator):
+    """Root-factorized neural emulator of ``sqrt(2n+1) P_n`` for ``dx/2``."""
+
+    def __init__(
+        self,
+        degree: int,
+        product: str = "relu",
+        num_layers: int = 8,
+        tanh_step: float | None = None,
+        tanh_bias: float = OPTIMAL_TANH_BIAS,
+        tanh_tolerance: float = 1e-4,
+    ):
+        degree = _validate_degree(degree)
+        super().__init__(
+            legendre_roots(degree),
+            legendre_leading_coefficient(degree),
+            product=product,
+            num_layers=num_layers,
+            tanh_step=tanh_step,
+            tanh_bias=tanh_bias,
+            tanh_tolerance=tanh_tolerance,
+        )
