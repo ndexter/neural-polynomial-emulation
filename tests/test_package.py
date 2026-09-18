@@ -9,6 +9,7 @@ def test_public_api_and_version():
         "LegendreBasisEmulator",
         "LegendreEmulator",
         "MultivariateBasisEmulator",
+        "PolynomialFormula",
         "ReLUProductNet",
         "TanhProductNet",
         "TanhSquaringNet",
@@ -28,6 +29,7 @@ def test_public_api_and_version():
         "total_degree_indices",
         "to_feedforward",
         "chebyshev_basis_error_by_degree",
+        "basis_polynomial_formula",
     }
     assert expected.issubset(set(npe.__all__))
     assert npe.__version__ == "0.5.0"

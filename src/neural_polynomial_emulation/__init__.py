@@ -21,6 +21,7 @@ from .diagnostics import (
     relative_frobenius_mismatch,
 )
 from .feedforward import FeedforwardProductNet, RePU2Activation, to_feedforward
+from .formulas import PolynomialFormula, basis_polynomial_formula
 from .legendre import (
     LegendreEmulator,
     exact_legendre,
@@ -51,6 +52,7 @@ __all__ = [
     "LegendreBasisEmulator",
     "LegendreEmulator",
     "MultivariateBasisEmulator",
+    "PolynomialFormula",
     "ReLUProductNet",
     "ReLUSquaringNet",
     "RePU2Activation",
@@ -58,6 +60,7 @@ __all__ = [
     "TanhProductNet",
     "TanhSquaringNet",
     "basis_error_by_degree",
+    "basis_polynomial_formula",
     "chebyshev_basis_error_by_degree",
     "chebyshev_l2_norm",
     "chebyshev_leading_coefficient",

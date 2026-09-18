@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "generator": "SymPy 1.14.0",
+    "coefficient_order": "ascending monomial degree",
+    "legendre_source": "sympy.legendre(n, x)",
+    "chebyshev_source": "sympy.chebyshevt(n, x)",
+    "legendre_normalization": "sqrt(2*n + 1)",
+    "chebyshev_normalization": "1 for n=0; sqrt(2) for n>=1"
+  },
+  "max_degree": 14,
+  "legendre": [
+    {"normalization_radicand": 1, "coefficients": ["1"]},
+    {"normalization_radicand": 3, "coefficients": ["0", "1"]},
+    {"normalization_radicand": 5, "coefficients": ["-1/2", "0", "3/2"]},
+    {"normalization_radicand": 7, "coefficients": ["0", "-3/2", "0", "5/2"]},
+    {"normalization_radicand": 9, "coefficients": ["3/8", "0", "-15/4", "0", "35/8"]},
+    {"normalization_radicand": 11, "coefficients": ["0", "15/8", "0", "-35/4", "0", "63/8"]},
+    {"normalization_radicand": 13, "coefficients": ["-5/16", "0", "105/16", "0", "-315/16", "0", "231/16"]},
+    {"normalization_radicand": 15, "coefficients": ["0", "-35/16", "0", "315/16", "0", "-693/16", "0", "429/16"]},
+    {"normalization_radicand": 17, "coefficients": ["35/128", "0", "-315/32", "0", "3465/64", "0", "-3003/32", "0", "6435/128"]},
+    {"normalization_radicand": 19, "coefficients": ["0", "315/128", "0", "-1155/32", "0", "9009/64", "0", "-6435/32", "0", "12155/128"]},
+    {"normalization_radicand": 21, "coefficients": ["-63/256", "0", "3465/256", "0", "-15015/128", "0", "45045/128", "0", "-109395/256", "0", "46189/256"]},
+    {"normalization_radicand": 23, "coefficients": ["0", "-693/256", "0", "15015/256", "0", "-45045/128", "0", "109395/128", "0", "-230945/256", "0", "88179/256"]},
+    {"normalization_radicand": 25, "coefficients": ["231/1024", "0", "-9009/512", "0", "225225/1024", "0", "-255255/256", "0", "2078505/1024", "0", "-969969/512", "0", "676039/1024"]},
+    {"normalization_radicand": 27, "coefficients": ["0", "3003/1024", "0", "-45045/512", "0", "765765/1024", "0", "-692835/256", "0", "4849845/1024", "0", "-2028117/512", "0", "1300075/1024"]},
+    {"normalization_radicand": 29, "coefficients": ["-429/2048", "0", "45045/2048", "0", "-765765/2048", "0", "4849845/2048", "0", "-14549535/2048", "0", "22309287/2048", "0", "-16900975/2048", "0", "5014575/2048"]}
+  ],
+  "chebyshev": [
+    {"normalization_radicand": 1, "coefficients": ["1"]},
+    {"normalization_radicand": 2, "coefficients": ["0", "1"]},
+    {"normalization_radicand": 2, "coefficients": ["-1", "0", "2"]},
+    {"normalization_radicand": 2, "coefficients": ["0", "-3", "0", "4"]},
+    {"normalization_radicand": 2, "coefficients": ["1", "0", "-8", "0", "8"]},
+    {"normalization_radicand": 2, "coefficients": ["0", "5", "0", "-20", "0", "16"]},
+    {"normalization_radicand": 2, "coefficients": ["-1", "0", "18", "0", "-48", "0", "32"]},
+    {"normalization_radicand": 2, "coefficients": ["0", "-7", "0", "56", "0", "-112", "0", "64"]},
+    {"normalization_radicand": 2, "coefficients": ["1", "0", "-32", "0", "160", "0", "-256", "0", "128"]},
+    {"normalization_radicand": 2, "coefficients": ["0", "9", "0", "-120", "0", "432", "0", "-576", "0", "256"]},
+    {"normalization_radicand": 2, "coefficients": ["-1", "0", "50", "0", "-400", "0", "1120", "0", "-1280", "0", "512"]},
+    {"normalization_radicand": 2, "coefficients": ["0", "-11", "0", "220", "0", "-1232", "0", "2816", "0", "-2816", "0", "1024"]},
+    {"normalization_radicand": 2, "coefficients": ["1", "0", "-72", "0", "840", "0", "-3584", "0", "6912", "0", "-6144", "0", "2048"]},
+    {"normalization_radicand": 2, "coefficients": ["0", "13", "0", "-364", "0", "2912", "0", "-9984", "0", "16640", "0", "-13312", "0", "4096"]},
+    {"normalization_radicand": 2, "coefficients": ["-1", "0", "98", "0", "-1568", "0", "9408", "0", "-26880", "0", "39424", "0", "-28672", "0", "8192"]}
+  ]
+}

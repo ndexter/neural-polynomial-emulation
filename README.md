@@ -72,6 +72,8 @@ package supplies the total-degree and lower-hyperbolic-cross index sets
 - `ChebyshevBasisEmulator`: the corresponding Chebyshev sequence evaluator.
 - `exact_legendre_basis` and `exact_chebyshev_basis`: stable three-term
   recurrences used as references.
+- `basis_polynomial_formula`: exact rational monomial coefficients and
+  probability-normalization factors for both supported families.
 - `total_degree_indices` and `hyperbolic_cross_indices`: deterministic,
   downward-closed multi-index generators ordered by total degree and then
   lexicographically.
@@ -185,6 +187,13 @@ sweep accuracy and size controls, and verify the executable feedforward
 conversion. `notebooks/feedforward_weight_structure.ipynb` visualizes signed
 weights, biases, exact nonzero masks, root/normalization structure, and an
 interactive three-dimensional X-ray of the complete branched network.
+`notebooks/formula_reference_diagnostics.ipynb` lists the exact normalized
+monomial formulas and compares recurrence, direct monomial evaluation, and
+all three neural constructions against a high-precision formula reference as
+order and dimension increase. Its fixed coefficient fixture is generated from
+SymPy's exact Legendre and Chebyshev polynomials and is independent of the
+package's runtime coefficient generator. The test suite checks both sources
+against SymPy.
 `notebooks/dimension_roundoff_accumulation.ipynb` compares float32 and float64
 precision sensitivity with increasing dimension for all three multiplication
 constructions and both functional and feedforward implementations. Reported
