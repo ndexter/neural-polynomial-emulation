@@ -23,6 +23,7 @@ def test_public_api_and_version():
         "exact_legendre_basis",
         "exact_multivariate_basis",
         "hyperbolic_cross_indices",
+        "interactive_network_figure",
         "legendre_basis_error_by_degree",
         "total_degree_indices",
         "to_feedforward",

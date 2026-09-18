@@ -37,7 +37,7 @@ Issues = "https://github.com/ndexter/neural-polynomial-emulation/issues"
 [project.optional-dependencies]
 test = ["pytest>=7"]
 examples = ["matplotlib>=3.6", "pandas>=1.5"]
-notebook = ["jupyter>=1", "matplotlib>=3.6", "pandas>=1.5"]
+notebook = ["jupyter>=1", "matplotlib>=3.6", "pandas>=1.5", "plotly>=5.18"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

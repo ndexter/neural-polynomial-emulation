@@ -87,6 +87,9 @@ package supplies the total-degree and lower-hyperbolic-cross index sets
   comparison with the functional constructions. Its tanh realization keeps
   the sum/difference and centered-finite-difference reductions in separate
   affine layers for stable float32 evaluation across linear-algebra backends.
+- `interactive_network_figure`: a rotatable Plotly X-ray of every affine
+  layer, activation, computational branch, and basis output in a converted
+  multivariate emulator.
 
 ## Example
 
@@ -180,7 +183,8 @@ The notebooks `notebooks/multivariate_basis_diagnostics.ipynb`,
 `notebooks/feedforward_embedding_diagnostics.ipynb` compare basis columns,
 sweep accuracy and size controls, and verify the executable feedforward
 conversion. `notebooks/feedforward_weight_structure.ipynb` visualizes signed
-weights, biases, exact nonzero masks, and root/normalization structure.
+weights, biases, exact nonzero masks, root/normalization structure, and an
+interactive three-dimensional X-ray of the complete branched network.
 `notebooks/dimension_roundoff_accumulation.ipynb` compares float32 and float64
 precision sensitivity with increasing dimension for all three multiplication
 constructions and both functional and feedforward implementations. Reported
@@ -188,7 +192,7 @@ maximum errors are maxima over the displayed grid or fixed random sample, not
 certified uniform-error bounds.
 
 ```bash
-python -m pip install -e ".[test,examples]"
+python -m pip install -e ".[test,notebook]"
 python -m pytest -q
 python examples/compare_activations.py
 ```

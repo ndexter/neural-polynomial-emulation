@@ -41,6 +41,7 @@ from .multivariate import (
 )
 from .products import ReLUProductNet, RePU2ProductNet, TanhProductNet
 from .squaring import OPTIMAL_TANH_BIAS, ReLUSquaringNet, TanhSquaringNet
+from .visualization import interactive_network_figure
 
 __all__ = [
     "OPTIMAL_TANH_BIAS",
@@ -71,6 +72,7 @@ __all__ = [
     "exact_legendre_basis",
     "exact_multivariate_basis",
     "hyperbolic_cross_indices",
+    "interactive_network_figure",
     "is_downward_closed",
     "legendre_basis_error_by_degree",
     "legendre_leading_coefficient",
